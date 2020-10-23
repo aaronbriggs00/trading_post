@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Signup from "../views/Signup.vue";
+import Login from "../views/Login.vue";
+import Logout from "../views/Logout.vue";
+import EventsIndex from "../views/EventsIndex.vue";
+import EventsShow from "../views/EventsShow.vue";
 
 Vue.use(VueRouter)
 
@@ -9,6 +14,31 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout
+  },
+  {
+    path: '/events',
+    name: 'events-index',
+    component: EventsIndex
+  },
+  {
+    path: '/events/:id',
+    name: 'events-show',
+    component: EventsShow
   },
   {
     path: '/about',
