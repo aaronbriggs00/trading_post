@@ -6,6 +6,10 @@ import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
 import EventsIndex from "../views/EventsIndex.vue";
 import EventsShow from "../views/EventsShow.vue";
+import UsersShow from "../views/UsersShow.vue";
+import UsersEdit from "../views/UsersEdit.vue";
+import ProductsEdit from "../views/ProductsEdit.vue";
+import ProductsNew from "../views/ProductsNew.vue";
 
 Vue.use(VueRouter)
 
@@ -39,6 +43,26 @@ const routes = [
     path: '/events/:id',
     name: 'events-show',
     component: EventsShow
+  },
+  {
+    path: '/users/:id',
+    name: 'users-show',
+    component: UsersShow
+  },
+  {
+    path: '/users/:id/edit',
+    name: 'users-edit',
+    component: UsersEdit
+  },
+  {
+    path: '/products/:id/edit',
+    name: 'products-edit',
+    component: ProductsEdit
+  },
+  {
+    path: '/products/new',
+    name: 'products-edit',
+    component: ProductsNew
   },
   {
     path: '/about',

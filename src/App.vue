@@ -28,6 +28,9 @@ export default {
         return false;
       }
     },
+    getUserId: function() {
+      return parseInt(localStorage.getItem("user_id"));
+    },
   },
 };
 </script>

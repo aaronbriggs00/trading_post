@@ -12,7 +12,24 @@
     >
       let's a not go
     </button>
-    <h1>{{ event }}}</h1>
+    <h1>{{ event.name }}</h1>
+    <h2>Attendees:</h2>
+    <div v-for="user in event.users">
+      <router-link :to="`/users/${user.id}`">{{ user.company }}</router-link>
+      <h3>Products:</h3>
+      <div v-for="product in user.products">
+        <h3>{{ product.title }} - {{ product.category }}</h3>
+        <p v-if="!product.per_unit_pricing">
+          ${{ parseFloat(product.price).toFixed(2) }}
+        </p>
+        <p v-if="product.per_unit_pricing">
+          ${{ parseFloat(product.price).toFixed(2) }}/{{ product.unit }}
+        </p>
+        <img :src="product.image_url" alt="" />
+        <p>{{ product.description }}</p>
+      </div>
+      <p>---------------------</p>
+    </div>
   </div>
 </template>
 
