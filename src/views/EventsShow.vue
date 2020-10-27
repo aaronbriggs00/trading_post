@@ -33,6 +33,24 @@ export default {
       this.event = response.data;
     });
   },
-  methods: {},
+  methods: {
+    rsvp: function() {
+      var params = { event_id: this.$route.params.id };
+      if (!this.event.current_user_attending) {
+        axios.post(`/api/event_users`, params).then((response) => {
+          console.log(response.data);
+          this.event.current_user_attending = true;
+        });
+      } else {
+        console.log("attempting to delete");
+        axios
+          .delete(`/api/event_users/${this.$route.params.id}`)
+          .then((response) => {
+            console.log(response.data);
+            this.event.current_user_attending = false;
+          });
+      }
+    },
+  },
 };
 </script>
