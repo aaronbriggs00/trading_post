@@ -12,15 +12,10 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      user: {},
+      product: {},
     };
   },
-  created: function() {
-    axios.get(`/api/users/${this.$route.params.id}`).then((response) => {
-      console.log(response.data);
-      this.user = response.data;
-    });
-  },
+  created: function() {},
   methods: {},
 };
 </script>

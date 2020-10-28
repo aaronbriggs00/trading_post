@@ -61,7 +61,7 @@ const routes = [
   },
   {
     path: '/products/new',
-    name: 'products-edit',
+    name: 'products-new',
     component: ProductsNew
   },
   {

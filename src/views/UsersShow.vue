@@ -10,21 +10,28 @@
       edit profile
     </router-link>
     <h2>Products:</h2>
-    <router-link tag="button" to="/products/new">add product</router-link>
+    <router-link
+      v-if="$parent.getUserId() == $route.params.id"
+      tag="button"
+      to="/products/new"
+      >add product</router-link
+    >
     <!-- user's products -->
     <div v-for="product in user.products">
-      <div v-for="product in user.products">
-        <h3>{{ product.title }} - {{ product.category }}</h3>
-        <p v-if="!product.per_unit_pricing">
-          ${{ parseFloat(product.price).toFixed(2) }}
-        </p>
-        <p v-if="product.per_unit_pricing">
-          ${{ parseFloat(product.price).toFixed(2) }}/{{ product.unit }}
-        </p>
-        <img :src="product.image_url" alt="" />
-        <p>{{ product.description }}</p>
-      </div>
-      <router-link :to="`/product/${product.id}/edit`" tag="button">
+      <h3>{{ product.title }} - {{ product.category }}</h3>
+      <p v-if="!product.per_unit_pricing">
+        ${{ parseFloat(product.price).toFixed(2) }}
+      </p>
+      <p v-if="product.per_unit_pricing">
+        ${{ parseFloat(product.price).toFixed(2) }}/{{ product.unit }}
+      </p>
+      <img :src="product.image_url" alt="" />
+      <p>{{ product.description }}</p>
+      <router-link
+        v-if="$parent.getUserId() == $route.params.id"
+        :to="`/products/${product.id}/edit`"
+        tag="button"
+      >
         edit product
       </router-link>
     </div>
