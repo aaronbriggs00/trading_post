@@ -1,7 +1,10 @@
 <template>
   <div class="users-show">
     <img :src="user.image_url" alt="" />
-    <p>{{ user }}</p>
+    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+    <h2>{{ user.company }}</h2>
+    <p>{{ user.email }}</p>
+    <p>{{ user.bio }}</p>
     <router-link
       v-if="$parent.getUserId() == $route.params.id"
       :to="`/users/${$route.params.id}/edit`"
