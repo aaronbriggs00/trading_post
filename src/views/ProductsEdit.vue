@@ -77,7 +77,6 @@
         delete
       </button>
     </form>
-    <h1>{{ product }}</h1>
   </div>
 </template>
 
