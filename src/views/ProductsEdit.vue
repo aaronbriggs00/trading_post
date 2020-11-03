@@ -119,6 +119,7 @@ export default {
         });
     },
     deleteProduct: function() {
+      confirm("This will delete your product forever. Are you sure?")
       axios
         .delete(`/api/products/${this.product.id}`)
         .then((response) => {

@@ -6,26 +6,6 @@
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
       <div class="form-group">
-        <label>First name:</label>
-        <input type="text" class="form-control" v-model="first_name" />
-      </div>
-      <div class="form-group">
-        <label>Last name:</label>
-        <input type="text" class="form-control" v-model="last_name" />
-      </div>
-      <div class="form-group">
-        <label>Company:</label>
-        <input type="text" class="form-control" v-model="company" />
-      </div>
-      <div class="form-group">
-        <label>Address:</label>
-        <input type="text" class="form-control" v-model="address" />
-      </div>
-      <div class="form-group">
-        <label>Bio:</label>
-        <input type="text" class="form-control" v-model="bio" />
-      </div>
-      <div class="form-group">
         <label>Email:</label>
         <input type="email" class="form-control" v-model="email" />
       </div>
@@ -52,7 +32,6 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      name: "",
       email: "",
       password: "",
       passwordConfirmation: "",
@@ -62,7 +41,6 @@ export default {
   methods: {
     submit: function() {
       var params = {
-        name: this.name,
         email: this.email,
         password: this.password,
         password_confirmation: this.passwordConfirmation,

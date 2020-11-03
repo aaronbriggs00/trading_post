@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <h1>Welcome message</h1>
     <h1 v-if="$parent.isLoggedIn()">{{ message }}</h1>
   </div>
 </template>
