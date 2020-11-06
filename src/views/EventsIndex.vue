@@ -3,12 +3,12 @@
     Date:
     <datepicker :clear-button="true" v-model="date"></datepicker><br />
     Search box: <input type="text" v-model="title" />
-    <button v-on:click="queryAssign()" class="btn btn-primary">filter</button>
-    <p>the selected date is {{ dateQuery }}</p>
+    <p>the selected date is {{ formattedDate }}</p>
+    <p>the output date looks like {{ date }}</p>
     <div
       v-for="event in filterBy(
-        filterBy(events, titleQuery, 'name'),
-        dateQuery,
+        filterBy(events, title, 'name'),
+        formattedDate,
         'date'
       )"
     >
@@ -44,21 +44,21 @@ export default {
       dateQuery: null,
     };
   },
+  computed: {
+    formattedDate: function() {
+      if (this.date) {
+        return this.date.toISOString().split("T")[0];
+      } else {
+        return null;
+      }
+    },
+  },
   created: function() {
     axios.get("/api/events").then((response) => {
       console.log(response.data);
       this.events = response.data;
     });
   },
-  methods: {
-    queryAssign: function() {
-      if (this.date) {
-        this.dateQuery = this.date.toISOString().split("T")[0];
-      } else {
-        this.dateQuery = null;
-      }
-      this.titleQuery = this.title;
-    },
-  },
+  methods: {},
 };
 </script>
