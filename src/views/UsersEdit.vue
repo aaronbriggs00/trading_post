@@ -35,9 +35,22 @@
       </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
+    <button v-on:click="passwordToggle()">change password</button>
     <button class="btn btn-primary" v-on:click="deleteUser()">
-      Delete Account
-    </button>
+      Delete Account</button
+    ><br />
+    <div v-if="showPasswordForm">
+      <p v-if="passwordFormMessage">{{ passwordFormMessage }}</p>
+      <p>enter your new password:</p>
+      <input v-model="password1" type="password" /><br />
+      <p v-if="password1 != '' && password1.length < 6">
+        password must exceed 6 characters
+      </p>
+      <p>enter your password again:</p>
+      <input v-model="password2" type="password" /><br />
+      <p v-if="password1 != password2">passwords must match!</p>
+      <button v-on:click="passwordCheck()">confirm</button>
+    </div>
   </div>
 </template>
 
@@ -49,6 +62,12 @@ export default {
     return {
       user: {},
       errors: null,
+      showPasswordForm: false,
+      password1: "",
+      password2: "",
+      password: null,
+      passwordFormMessage: null,
+      dontReturnToShow: false,
     };
   },
   created: function() {
@@ -67,15 +86,30 @@ export default {
         bio: this.user.bio,
         image_url: this.user.image_url,
         email: this.user.email,
+        password: this.password,
       };
       axios
         .patch(`/api/users/${this.$route.params.id}`, params)
         .then((response) => {
-          this.$router.push(`/users/${this.$route.params.id}`);
+          if (this.dontReturnToShow == false) {
+            this.$router.push(`/users/${this.$route.params.id}`);
+          }
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
+    },
+    passwordCheck: function() {
+      if (this.password1 === this.password2 && this.password1.length > 6) {
+        this.password = this.password1;
+        this.dontReturnToShow = true;
+        this.submit();
+        this.password1 = "";
+        this.password2 = "";
+        this.passwordToggle();
+      } else {
+        this.passwordFormMessage = "please check your password inputs";
+      }
     },
     deleteUser: function() {
       confirm(
@@ -91,6 +125,13 @@ export default {
         .catch((error) => {
           this.erros = error.response.data.errors;
         });
+    },
+    passwordToggle: function() {
+      if (this.showPasswordForm === false) {
+        this.showPasswordForm = true;
+      } else {
+        this.showPasswordForm = false;
+      }
     },
   },
 };

@@ -41,11 +41,11 @@
     <h2>Schedule:</h2>
     <!-- user's events -->
     <div v-for="event in user.events">
-      {{ event }}
+      <h3>{{ event.name }}</h3>
+      <p>{{ event.address }}</p>
+      <p>{{ event.date }}</p>
       <router-link tag="button" :to="`/events/${event.id}`">view</router-link>
     </div>
-
-    <!-- <router-link to="" tag="button">add product</router-link> -->
   </div>
 </template>
 
