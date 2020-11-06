@@ -31,7 +31,12 @@
       </div>
       <div class="form-group">
         <label>Image:</label>
-        <input type="text" class="form-control" v-model="user.image_url" />
+        <input
+          type="file"
+          class="form-control"
+          v-on:change="setFile($event)"
+          ref="fileInput"
+        />
       </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
@@ -51,6 +56,7 @@
       <p v-if="password1 != password2">passwords must match!</p>
       <button v-on:click="passwordCheck()">confirm</button>
     </div>
+    <h3>{{ image }}</h3>
   </div>
 </template>
 
@@ -68,6 +74,7 @@ export default {
       password: null,
       passwordFormMessage: null,
       dontReturnToShow: false,
+      image: null,
     };
   },
   created: function() {
@@ -77,19 +84,24 @@ export default {
     });
   },
   methods: {
+    setFile: function(event) {
+      if (event.target.files.length > 0) {
+        this.image = event.target.files[0];
+      }
+    },
     submit: function() {
-      var params = {
-        first_name: this.user.first_name,
-        last_name: this.user.last_name,
-        company: this.user.company,
-        address: this.user.address,
-        bio: this.user.bio,
-        image_url: this.user.image_url,
-        email: this.user.email,
-        password: this.password,
-      };
+      var formData = new FormData();
+      formData.append("first_name", this.user.first_name);
+      formData.append("last_name", this.user.last_name);
+      formData.append("company", this.user.company);
+      formData.append("address", this.user.address);
+      formData.append("bio", this.user.bio);
+      formData.append("email", this.user.email);
+      if (this.image) {
+        formData.append("image", this.image);
+      }
       axios
-        .patch(`/api/users/${this.$route.params.id}`, params)
+        .patch(`/api/users/${this.$route.params.id}`, formData)
         .then((response) => {
           if (this.dontReturnToShow == false) {
             this.$router.push(`/users/${this.$route.params.id}`);

@@ -31,7 +31,12 @@
       </div>
       <div class="form-group">
         <label>Image</label>
-        <input type="text" class="form-control" v-model="productImageUrl" />
+        <input
+          type="file"
+          class="form-control"
+          v-on:change="setFile($event)"
+          ref="fileInput"
+        />
       </div>
       <div class="form-group">
         <label for="categories">Category:</label>
@@ -97,18 +102,24 @@ export default {
   },
   created: function() {},
   methods: {
+    setFile: function(event) {
+      if (event.target.files.length > 0) {
+        this.image = event.target.files[0];
+      }
+    },
     productCreate: function() {
-      var params = {
-        title: this.productTitle,
-        price: this.productPrice,
-        price_negotiable: this.productPriceNegotiable,
-        category_id: this.productCategoryId,
-        description: this.productDescription,
-        image_url: this.productImageUrl,
-        unit: this.productUnit,
-      };
+      var formData = new FormData();
+      formData.append("title", this.productTitle);
+      formData.append("price", this.productPrice);
+      formData.append("price_negotiable", this.productPriceNegotiable);
+      formData.append("description", this.productDescription);
+      formData.append("unit", this.productUnit);
+      formData.append("category_id", this.productCategoryId);
+      if (this.image) {
+        formData.append("image", this.image);
+      }
       axios
-        .post("/api/products", params)
+        .post("/api/products", formData)
         .then((response) => {
           this.$router.push(`/users/${this.$parent.getUserId()}`);
         })

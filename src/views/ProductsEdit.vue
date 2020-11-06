@@ -31,7 +31,12 @@
       </div>
       <div class="form-group">
         <label>Image</label>
-        <input type="text" class="form-control" v-model="product.image_url" />
+        <input
+          type="file"
+          class="form-control"
+          v-on:change="setFile($event)"
+          ref="fileInput"
+        />
       </div>
       <div class="form-group">
         <label for="categories">Category:</label>
@@ -99,18 +104,24 @@ export default {
     });
   },
   methods: {
+    setFile: function(event) {
+      if (event.target.files.length > 0) {
+        this.image = event.target.files[0];
+      }
+    },
     productEdit: function() {
-      var params = {
-        title: this.product.title,
-        price: this.product.price,
-        price_negotiable: this.product.price_negotiable,
-        category_id: this.product.category_id,
-        description: this.product.description,
-        image_url: this.product.image_url,
-        unit: this.product.unit,
-      };
+      var formData = new FormData();
+      formData.append("title", this.product.title);
+      formData.append("price", this.product.price);
+      formData.append("price_negotiable", this.product.price_negotiable);
+      formData.append("description", this.product.description);
+      formData.append("unit", this.product.unit);
+      formData.append("category_id", this.product.category_id);
+      if (this.image) {
+        formData.append("image", this.image);
+      }
       axios
-        .patch(`/api/products/${this.product.id}`, params)
+        .patch(`/api/products/${this.product.id}`, formData)
         .then((response) => {
           this.$router.push(`/users/${this.$parent.getUserId()}`);
         })
@@ -119,7 +130,7 @@ export default {
         });
     },
     deleteProduct: function() {
-      confirm("This will delete your product forever. Are you sure?")
+      confirm("This will delete your product forever. Are you sure?");
       axios
         .delete(`/api/products/${this.product.id}`)
         .then((response) => {
