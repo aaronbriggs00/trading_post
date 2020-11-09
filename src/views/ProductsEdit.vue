@@ -40,7 +40,7 @@
       </div>
       <div class="form-group">
         <label for="categories">Category:</label>
-        <select name="categories" id="categories" v-model="product.category_id">
+        <select name="categories" id="categories" v-model="product.category.id">
           <option value="1">Baked goods</option>
           <option value="2">Crafts and/or woodworking items</option>
           <option value="3">Eggs</option>
@@ -116,7 +116,7 @@ export default {
       formData.append("price_negotiable", this.product.price_negotiable);
       formData.append("description", this.product.description);
       formData.append("unit", this.product.unit);
-      formData.append("category_id", this.product.category_id);
+      formData.append("category_id", this.product.category.id);
       if (this.image) {
         formData.append("image", this.image);
       }

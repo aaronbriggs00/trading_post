@@ -97,6 +97,7 @@ export default {
       formData.append("address", this.user.address);
       formData.append("bio", this.user.bio);
       formData.append("email", this.user.email);
+      formData.append("password", this.password);
       if (this.image) {
         formData.append("image", this.image);
       }

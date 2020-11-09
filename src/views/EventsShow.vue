@@ -54,6 +54,7 @@ export default {
   data: function() {
     return {
       event: {},
+      currentUserData: {},
     };
   },
   created: function() {
@@ -61,32 +62,36 @@ export default {
       console.log(response.data);
       this.event = response.data;
       console.log(this.event.address);
-      mapboxgl.accessToken = process.env.VUE_APP_MAP_BOX_API_KEY;
-      var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
-      mapboxClient.geocoding
-        .forwardGeocode({
-          query: this.event.address,
-          autocomplete: false,
-          limit: 1,
-        })
-        .send()
-        .then(function(response) {
-          if (
-            response &&
-            response.body &&
-            response.body.features &&
-            response.body.features.length
-          ) {
-            var feature = response.body.features[0];
-            var map = new mapboxgl.Map({
-              container: "map",
-              style: "mapbox://styles/mapbox/streets-v11",
-              center: feature.center,
-              zoom: 10,
-            });
-            new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
-          }
-        });
+      // mapboxgl.accessToken = process.env.VUE_APP_MAP_BOX_API_KEY;
+      // var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+      // mapboxClient.geocoding
+      //   .forwardGeocode({
+      //     query: this.event.address,
+      //     autocomplete: false,
+      //     limit: 1,
+      //   })
+      //   .send()
+      //   .then(function(response) {
+      //     if (
+      //       response &&
+      //       response.body &&
+      //       response.body.features &&
+      //       response.body.features.length
+      //     ) {
+      //       var feature = response.body.features[0];
+      //       var map = new mapboxgl.Map({
+      //         container: "map",
+      //         style: "mapbox://styles/mapbox/streets-v11",
+      //         center: feature.center,
+      //         zoom: 10,
+      //       });
+      //       new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
+      //     }
+      //   });
+    });
+    axios.get(`/api/users/${this.$parent.getUserId()}`).then((response) => {
+      console.log(response.data);
+      this.currentUserData = response.data;
     });
   },
   mounted: function() {
@@ -98,6 +103,7 @@ export default {
       if (!this.event.current_user_attending) {
         axios.post(`/api/event_users`, params).then((response) => {
           console.log(response.data);
+          this.event.users.splice(0, 0, this.currentUserData);
           this.event.current_user_attending = true;
         });
       } else {
@@ -107,6 +113,11 @@ export default {
           .then((response) => {
             console.log(response.data);
             this.event.current_user_attending = false;
+            var userIds = this.event.users.map((user) => user.id);
+            this.event.users.splice(
+              userIds.findIndex((id) => id === this.$parent.getUserId),
+              1
+            );
           });
       }
     },
