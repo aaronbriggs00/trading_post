@@ -1,20 +1,45 @@
 <template>
   <div class="home">
-    <h1>Welcome message</h1>
-    <h1 v-if="$parent.isLoggedIn()">{{ message }}</h1>
+    <bar-chart :chartData="barChartData" :options="barChartOptions"></bar-chart>
   </div>
 </template>
 
-<style></style>
-
 <script>
+import BarChart from "./../components/BarChart.js";
+
 export default {
-  data: function() {
+  components: {
+    BarChart,
+  },
+  data() {
     return {
-      message: "You're logged in!!!",
+      barChartData: {
+        datasets: [
+          {
+            label: "test data",
+            backgroundColor: "#0000FF",
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2,
+            data: [10, 20, 30, 40, 50, 60],
+          },
+        ],
+      },
+      barChartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
     };
   },
-  created: function() {},
+  mounted() {},
   methods: {},
 };
 </script>
+
+<style>
+.small {
+  max-width: 600px;
+  margin: 150px auto;
+}
+</style>

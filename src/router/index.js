@@ -10,6 +10,7 @@ import UsersShow from "../views/UsersShow.vue";
 import UsersEdit from "../views/UsersEdit.vue";
 import ProductsEdit from "../views/ProductsEdit.vue";
 import ProductsNew from "../views/ProductsNew.vue";
+import GraphTest from "../views/GraphTest.vue";
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/products/new',
     name: 'products-new',
     component: ProductsNew
+  },
+  {
+    path: '/graphtest',
+    name: 'graph-test',
+    component: GraphTest
   },
   {
     path: '/about',

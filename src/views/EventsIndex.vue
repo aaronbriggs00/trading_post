@@ -16,7 +16,7 @@
       <router-link :to="`/events/${event.id}`"
         ><img :src="event.image_url" width="400" height="300"
       /></router-link>
-      <p>{{ event.city }},{{ event.state }}</p>
+      <p>{{ event.address }}</p>
       <p>{{ event.date }}</p>
     </div>
   </div>
@@ -54,7 +54,7 @@ export default {
     },
   },
   created: function() {
-    axios.get("/api/events").then((response) => {
+    axios.get("/api/events?current=yes").then((response) => {
       console.log(response.data);
       this.events = response.data;
     });

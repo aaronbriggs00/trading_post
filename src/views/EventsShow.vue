@@ -1,5 +1,6 @@
 <template>
   <div class="events-show">
+    <h1>{{ event.users.map((user) => user.id) }}</h1>
     <button
       v-if="!event.current_user_attending && $parent.isLoggedIn()"
       v-on:click="rsvp()"
@@ -8,10 +9,27 @@
     </button>
     <button
       v-if="event.current_user_attending && $parent.isLoggedIn()"
-      v-on:click="rsvp()"
+      v-on:click="
+        rsvp();
+        categoryData();
+      "
     >
       let's a not go
     </button>
+    <button
+      v-on:click="
+        toggleAnalytics();
+        categoryData();
+      "
+    >
+      Show Graphs
+    </button>
+    <div v-if="showGraph">
+      <doughnut-chart
+        :chartData="categoryChartData"
+        :options="categoryChartOptions"
+      ></doughnut-chart>
+    </div>
     <h1>{{ event.name }}</h1>
     <img :src="event.image_url" width="400" height="300" />
     <h3>{{ event.address }}</h3>
@@ -49,12 +67,19 @@
 <script>
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
+import DoughnutChart from "./../components/DoughnutChart.js";
 
 export default {
+  components: {
+    DoughnutChart,
+  },
   data: function() {
     return {
       event: {},
       currentUserData: {},
+      showGraph: false,
+      categoryChartData: null,
+      categoryChartOptions: {},
     };
   },
   created: function() {
@@ -97,6 +122,7 @@ export default {
   mounted: function() {
     // this.mapAddress();
   },
+  computed: {},
   methods: {
     rsvp: function() {
       var params = { event_id: this.$route.params.id };
@@ -113,10 +139,8 @@ export default {
           .then((response) => {
             console.log(response.data);
             this.event.current_user_attending = false;
-            var userIds = this.event.users.map((user) => user.id);
-            this.event.users.splice(
-              userIds.findIndex((id) => id === this.$parent.getUserId),
-              1
+            this.event.users = this.event.users.filter(
+              (user) => user.id != this.$parent.getUserId()
             );
           });
       }
@@ -149,6 +173,68 @@ export default {
             });
           }
         });
+    },
+    toggleAnalytics: function() {
+      if (this.showGraph) {
+        this.showGraph = false;
+      } else {
+        this.showGraph = true;
+      }
+    },
+    categoryData: function() {
+      var categoriesHash = {};
+      this.event.users.forEach((user) => {
+        user.products.forEach((product) => {
+          if (categoriesHash[product.category]) {
+            categoriesHash[product.category] += 1;
+          } else {
+            categoriesHash[product.category] = 1;
+          }
+        });
+      });
+      var categoryData = [];
+      Object.keys(categoriesHash).forEach((key) => {
+        categoryData.push(categoriesHash[key]);
+      });
+      this.categoryChartData = {
+        datasets: [
+          {
+            data: categoryData,
+            backgroundColor: [
+              "#9999ff",
+              "#ff6666",
+              "#196666",
+              "#00cc99",
+              "#6600cc",
+              "#ffd966",
+              "#c2d6d6",
+              "#ffcccc",
+              "#ffe6ff",
+              "#808000",
+              "#004d66",
+              "#d9d9d9",
+              "#a9ff4d",
+              "#66ffff",
+              "#ffc266",
+              "e6f8ff",
+              "#4080bf",
+              "#cc6699",
+              "#4d001f",
+              "#333399",
+              "#73264d",
+              "#cccc00",
+              "#ff0066",
+              "#206040",
+              "#86b300",
+              "#394d00",
+              "#ccccff",
+              "#ffcc99",
+              "#ac3973",
+            ],
+          },
+        ],
+        labels: Object.keys(categoriesHash),
+      };
     },
   },
 };
