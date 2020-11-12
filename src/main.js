@@ -5,8 +5,11 @@ import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
+import PortalVue from "portal-vue";
 
 
+Vue.use(PortalVue);
+import { Kalendar } from 'kalendar-vue';
 
 moment().format();
 
