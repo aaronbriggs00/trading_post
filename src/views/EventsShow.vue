@@ -33,7 +33,7 @@
     <h1>{{ event.name }}</h1>
     <img :src="event.image_url" width="400" height="300" />
     <h3>{{ event.address }}</h3>
-    <div id="map"></div>
+    <!-- <div id="map"></div> -->
     <h2>Attendees:</h2>
     <div v-for="user in event.users">
       <router-link :to="`/users/${user.id}`">{{ user.company }}</router-link
