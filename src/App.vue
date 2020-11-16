@@ -1,16 +1,191 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/"> Home</router-link>
-      <router-link to="/about"> About</router-link>
-      <router-link to="/events"> Markets</router-link>
-      <router-link v-if="!isLoggedIn()" to="/signup"> Signup</router-link>
-      <router-link v-if="!isLoggedIn()" to="/login"> Login</router-link>
-      <router-link v-if="isLoggedIn()" to="/logout"> Logout</router-link>
-      <router-link v-if="isLoggedIn()" :to="`/users/${getUserId()}`">
-        Profile</router-link
-      >
-    </div>
+    <!-- Navbar -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand text-success logo"
+            ><i class="mdi mdi-home-map-marker"></i>
+            <strong>Trading</strong> Post</a
+          >
+          <span class="navbar-toggler-icon"></span>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
+              <li class="nav-item dropdown">
+                <!-- <router-link
+                  class="nav-link"
+                  to="/home"
+                  id="navbarDropdownPortfolio"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  HOME
+                </router-link> -->
+                <!-- <div
+                  class="dropdown-menu"
+                  aria-labelledby="navbarDropdownPortfolio"
+                >
+                  <a class="dropdown-item" href="index1.html"
+                    >Home With Search</a
+                  >
+                  <a class="dropdown-item" href="index2.html">Home With Map</a>
+                  <a class="dropdown-item" href="index3.html"
+                    >Home With Property Info</a
+                  >
+                </div> -->
+              </li>
+              <li class="nav-item dropdown">
+                <router-link
+                  class="nav-link"
+                  to="/about"
+                  id="navbarDropdownPortfolio"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  About
+                </router-link>
+                <!-- <div
+                  class="dropdown-menu"
+                  aria-labelledby="navbarDropdownPortfolio"
+                >
+                  <a class="dropdown-item" href="properties-grid.html"
+                    >Properties Grid</a
+                  >
+                  <a class="dropdown-item" href="properties-list.html"
+                    >Properties List</a
+                  >
+                  <a class="dropdown-item" href="property-single-slider.html"
+                    >Property Single Slider</a
+                  >
+                  <a class="dropdown-item" href="property-single-gallery.html"
+                    >Property Single Gallery</a
+                  >
+                </div> -->
+              </li>
+              <!-- <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdownPortfolio"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Agency
+                </a>
+                <div
+                  class="dropdown-menu"
+                  aria-labelledby="navbarDropdownPortfolio"
+                >
+                  <a class="dropdown-item" href="agency-list.html"
+                    >Agency List</a
+                  >
+                  <a class="dropdown-item" href="agency-profile.html"
+                    >Agency Profile</a
+                  >
+                  <a class="dropdown-item" href="agents.html">Agents</a>
+                  <a class="dropdown-item" href="agent-profile.html"
+                    >Agent Profile</a
+                  >
+                </div> -->
+              </li>
+              <li class="nav-item dropdown">
+                <router-link
+                  class="nav-link"
+                  to="/events"
+                  id="navbarDropdownPortfolio"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Markets
+                </router-link>
+                <!-- <div
+                  class="dropdown-menu"
+                  aria-labelledby="navbarDropdownPortfolio"
+                >
+                  <a class="dropdown-item" href="blog.html">Blog</a>
+                  <a class="dropdown-item" href="blog-single.html"
+                    >Blog Single</a
+                  >
+                </div> -->
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdownPortfolio"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  My Account
+                </a>
+                <div
+                  class="dropdown-menu"
+                  aria-labelledby="navbarDropdownPortfolio"
+                >
+                  <router-link
+                    v-if="isLoggedIn()"
+                    class="dropdown-item"
+                    :to="`/users/${getUserId()}`"
+                    >User Profile</router-link
+                  >
+                  <router-link
+                    class="dropdown-item"
+                    :to="`/users/${getUserId()}/edit`"
+                    >Edit Profile</router-link
+                  >
+                  <router-link class="dropdown-item" to="/products/new"
+                    >Add Product</router-link
+                  >
+                </div>
+              </li>
+              <!-- <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdownPortfolio"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Pages
+                </a>
+                <div
+                  class="dropdown-menu"
+                  aria-labelledby="navbarDropdownPortfolio"
+                >
+                  <a class="dropdown-item" href="about.html">About Us</a>
+                  <a class="dropdown-item" href="faq.html">FAQ</a>
+                  <a class="dropdown-item" href="contact.html">Contact</a>
+                  <a class="dropdown-item" href="not-found.html">404 Page</a>
+                </div>
+              </li> -->
+            </ul>
+            <div class="my-2 my-lg-0">
+              <ul class="list-inline main-nav-right">
+                <li class="list-inline-item">
+                  <router-link v-if="!isLoggedIn()" class="btn btn-link btn-sm" to="/login">Sign in</router-link>
+                </li>
+                <li class="list-inline-item">
+                  <router-link v-if="!isLoggedIn()" class="btn btn-success btn-sm" to="/signup"
+                    >Sign Up</router-link
+                  >
+                </li>
+                <li class="list-inline-item">
+                  <router-link v-if="isLoggedIn()" class="btn btn-link btn-sm" to="/logout"
+                    >Log out</router-link
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
     <router-view />
   </div>
 </template>
@@ -37,26 +212,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>

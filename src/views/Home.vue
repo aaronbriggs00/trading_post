@@ -1,7 +1,5 @@
 <template>
-  <div class="home">
-    <bar-chart :chartData="barChartData" :options="barChartOptions"></bar-chart>
-  </div>
+  <div class="home"></div>
 </template>
 
 <script>
