@@ -5,16 +5,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h1 class="mt-0 mb-3 text-white">{{event.name}}</h1>
-            <div class="breadcrumbs">
-              <p class="mb-0 text-white">
-                <router-link class="text-white" to="/events"
-                  >Markets</router-link
-                >
-                /
-                <span class="text-success">Vendor's Profile</span>
-              </p>
-            </div>
+            <h1 class="mt-0 mb-3 text-white">{{ event.name }}</h1>
           </div>
         </div>
       </div>
@@ -35,43 +26,62 @@
             <i class="mdi mdi-filter"></i> {{ dropdown }}
           </button>
           <div
-              class="dropdown-menu float-right"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <a v-if="!showInfo"
-                class="dropdown-item"
-                v-on:click="showMap = false; showGraph = false; showInfo = true;"
-                ><i class="mdi mdi-chevron-right"></i> Information
-              </a>
-              <a v-if="!showGraph"
-                class="dropdown-item"
-                v-on:click="showMap = false; showInfo = false; showGraph = true; categoryData();"
-                ><i class="mdi mdi-chevron-right"></i> Market Data
-              </a>
-              <a v-if="!showMap"
-                class="dropdown-item"
-                v-on:click="showInfo = false; showGraph = false; showMap = true;"
-                ><i class="mdi mdi-chevron-right"></i> Map
-              </a>
-            </div>
+            class="dropdown-menu float-right"
+            aria-labelledby="dropdownMenuButton"
+          >
+            <a
+              v-if="!showInfo"
+              class="dropdown-item"
+              v-on:click="
+                showMap = false;
+                showGraph = false;
+                showInfo = true;
+              "
+              ><i class="mdi mdi-chevron-right"></i> Information
+            </a>
+            <a
+              v-if="!showGraph"
+              class="dropdown-item"
+              v-on:click="
+                showMap = false;
+                showInfo = false;
+                showGraph = true;
+                categoryData();
+              "
+              ><i class="mdi mdi-chevron-right"></i> Market Data
+            </a>
+            <a
+              v-if="!showMap"
+              class="dropdown-item"
+              v-on:click="
+                showInfo = false;
+                showGraph = false;
+                showMap = true;
+                mapAddress();
+              "
+              ><i class="mdi mdi-chevron-right"></i> Map
+            </a>
           </div>
+        </div>
         <div id="event-header" class="row">
           <div class="col-lg-5 col-md-5">
-            <h1>{{event.date}}</h1>
-            <button class="btn btn-success btn-sm"
+            <h1>{{ event.date }}</h1>
+            <button
+              class="btn btn-success btn-sm"
               v-if="!event.current_user_attending && $parent.isLoggedIn()"
               v-on:click="rsvp()"
             >
-              let's a go
+              RSVP
             </button>
-            <button class="btn btn-success btn-sm"
+            <button
+              class="btn btn-success btn-sm"
               v-if="event.current_user_attending && $parent.isLoggedIn()"
               v-on:click="
                 rsvp();
                 categoryData();
               "
             >
-              let's a not go
+              cancel RSVP
             </button>
           </div>
         </div>
@@ -84,31 +94,21 @@
             />
           </div>
           <div v-if="showInfo" class="col-lg-7 col-md-7 pl-5 pr-5">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              lobortis tincidunt est, et euismod purus suscipit quis. Etiam
-              euismod ornare elementum.lobortis tincidunt est, et euismod purus
-              suscipit quis. Etiam euismod ornare elementum.
-            </p>
             <div class="row mt-3">
               <div class="col-lg-6 col-md-6">
                 <p>
-                  <strong class="text-dark">Phone :</strong> +91 12345-67890
+                  <strong class="text-dark">Address :</strong>
+                  {{ event.address }}
                 </p>
-                <p>
-                  <strong class="text-dark">Address :</strong> 1200 Petersham
-                  Town
-                </p>
-                <p><strong class="text-dark">State :</strong> Newcastle</p>
-              </div>
-              <div class="col-lg-6 col-md-6">
                 <p>
                   <strong class="text-dark">Website :</strong>
                   www.askbootstrap.com
                 </p>
-                <p><strong class="text-dark">City :</strong> Sydney</p>
+              </div>
+              <div class="col-lg-6 col-md-6">
                 <p>
-                  <strong class="text-dark">Zip/Postal Code :</strong> 54330
+                  <strong class="text-dark">Products :</strong>
+                  www.askbootstrap.com
                 </p>
               </div>
             </div>
@@ -121,210 +121,141 @@
             </div>
           </div>
           <div v-if="showGraph" class="col-lg-7 col-md-7 pl-5 pr-5">
-                <doughnut-chart
-        :chartData="categoryChartData"
-        :options="categoryChartOptions"
-      ></doughnut-chart>
+            <doughnut-chart
+              :chartData="categoryChartData"
+              :options="categoryChartOptions"
+            ></doughnut-chart>
           </div>
-          <div v-if="showMap" class="col-lg-7 col-md-7 pl-5 pr-5"></div>
+          <div v-if="showMap" class="col-lg-7 col-md-7 pl-5 pr-5">
+            <div v-if="showMap" id="map"></div>
+          </div>
         </div>
       </div>
     </section>
     <!-- End Market Info -->
     <!-- Users -->
     <section class="section-padding">
-        <div class="container">
-          <div class="row">
-              <div class="col-lg-12 col-md-12">
-                <div class="row" v-for="user in event.users">
-                    <div class="col-lg-12 col-md-12">
-                      <div class="card card-list card-list-view">
-                          <a :to="`/users/${user.id}`">
-                            <div class="row no-gutters">
-                                <div class="col-lg-4 col-md-4">
-                                  <img class="card-img-top" :src="user.image_url" alt="Card image cap">
-                                </div>
-                                <div class="col-lg-8 col-md-8">
-                                  <div class="card-body">
-                                      <h3>{{user.company}}</h3>
-                                      <h6 class="card-subtitle mt-1 mb-4 text-muted"><i class="mdi mdi-home-map-marker"></i> {{user.address}}</h6>
-                                      <p class="mb-0">{{user.bio}} </p><br>
-                                      <div>
-                                      <span class="btn btn-success btn-sm" v-on:click="showProducts = true; productButtonReset(user.id)">Products</span> 
-                                      <router-link :to="`/users/${user.id}`" class="btn btn-link btn-sm"> Profile </router-link>
-                                      </div><br><br>
-                                      <div v-for="category in user.categories"><h5 class="card-subtitle mb-2 text-muted">{{category.title}}</h5></div>
-                                  </div>
-                                  <div class="card-footer">
-                                      <span><i class="mdi mdi-phone"></i> {{user.phone_number}}</span>
-                                      <span><i class="mdi mdi-email"></i> {{user.email}} </span>
-                                      <span><i class="mdi mdi-link"></i> {{user.website}}</span>
-                                  </div>
-                                </div>
-                            </div>
-                          </a>
-                      </div>
-                    </div>
-                    <div v-if="selectedUser == user.id" class="col-lg-4 col-md-4" v-for="product in user.products">
-            <div class="card card-list">
-              <a href="#">
-                <span
-                  v-if="product.price_negotiable"
-                  class="badge badge-success"
-                  >Negotiable</span
-                >
-                <img
-                  class="card-img-top"
-                  :src="product.image_url"
-                  alt="Card image cap"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{{ product.title }}</h5>
-                  <h5 class="card-subtitle mb-2 text-muted">
-                    {{ product.category }}
-                  </h5>
-                  <h2 class="text-success mb-0 mt-3">
-                    ${{ product.price }}
-                    <small v-if="product.unit">/{{ product.unit }}</small>
-                  </h2>
-                  <br />
-                  <h6 class="card-subtitle mb-2 text-muted">
-                    {{ product.description }}
-                  </h6>
-                </div>
-                <div class="card-footer">
-                  <router-link
-                    v-if="$parent.getUserId() == $route.params.id"
-                    :to="`/products/${product.id}/edit`"
-                    tag="span"
-                    ><i class="mdi mdi-move-resize-variant"></i>
-                    edit product
-                  </router-link>
-                </div>
-              </a>
-            </div>
-                    </div>
-                </div>
-              </div>
-          </div>
-        </div>
-    </section>
-    <!-- End Users -->
-    <!-- Footer -->
-    </section>
-    <section class="section-padding bg-dark text-center">
-      <h2 class="text-white mt-0">
-        I'm happy you're here!
-      </h2>
-      <p class="text-white mb-4">
-        If you're interested in this site or others like it, reach out to me!
-      </p>
-      <a
-        type="button"
-        class="btn btn-success"
-        href="https://aaronbriggs00.github.io/"
-      >
-        About me
-      </a>
-      <router-link
-        tag="button"
-        type="button"
-        class="btn btn-outline-success"
-        to="/about"
-        >Read More</router-link
-      >
-    </section>
-    <section class="section-padding footer bg-white">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 col-md-3">
-            <h4 class="mb-5">
-              <a class="text-success logo" href="index.html"
-                ><i class="mdi mdi-home-map-marker"></i>
-                <strong>Trading</strong>Post</a
-              >
-            </h4>
-            <p>1060 West Addison St, Chicago, Illinois<br />USA 60613</p>
-            <p class="mb-0">
-              <a class="text-dark" href="#">+1 111 111 1111</a>
-            </p>
-            <p class="mb-0">
-              <a class="text-success" href="#">tradingpost@gmail.com</a>
-            </p>
-          </div>
-          <div class="col-lg-2 col-md-2">
-            <h6 class="mb-4">COMPANY</h6>
-            <ul>
-              <li><a href="#">About us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Properties</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-2 col-md-2">
-            <h6 class="mb-4">LEARN MORE</h6>
-            <ul>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms & Conditions</a></li>
-              <li><a href="#">Account</a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Blog</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-4 col-md-4">
-            <h6 class="mb-4">NEWSLETTER</h6>
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Email Address..."
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-              />
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  <i class="mdi mdi-arrow-right"></i>
-                </button>
+          <div class="col-lg-12 col-md-12">
+            <div class="row" v-for="user in event.users">
+              <div class="col-lg-12 col-md-12">
+                <div class="card card-list card-list-view">
+                  <a :to="`/users/${user.id}`">
+                    <div class="row no-gutters">
+                      <div class="col-lg-4 col-md-4">
+                        <img
+                          class="card-img-top"
+                          :src="user.image_url"
+                          alt="Card image cap"
+                        />
+                      </div>
+                      <div class="col-lg-8 col-md-8">
+                        <div class="card-body">
+                          <h3>{{ user.company }}</h3>
+                          <h6 class="card-subtitle mt-1 mb-4 text-muted">
+                            <i class="mdi mdi-home-map-marker"></i>
+                            {{ user.address }}
+                          </h6>
+                          <p class="mb-0">{{ user.bio }}</p>
+                          <br />
+                          <div>
+                            <span
+                              class="btn btn-success btn-sm"
+                              v-on:click="
+                                showProducts = true;
+                                productButtonReset(user.id);
+                              "
+                              >Products</span
+                            >
+                            <router-link
+                              :to="`/users/${user.id}`"
+                              class="btn btn-link btn-sm"
+                            >
+                              Profile
+                            </router-link>
+                          </div>
+                          <br /><br />
+                          <div v-for="category in user.categories">
+                            <h5 class="card-subtitle mb-2 text-muted">
+                              {{ category.title }}
+                            </h5>
+                          </div>
+                        </div>
+                        <div class="card-footer">
+                          <span
+                            ><i class="mdi mdi-phone"></i>
+                            {{ user.phone_number }}</span
+                          >
+                          <span
+                            ><i class="mdi mdi-email"></i> {{ user.email }}
+                          </span>
+                          <span
+                            ><i class="mdi mdi-link"></i>
+                            {{ user.website }}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
               </div>
-            </div>
-            <h6 class="mb-4 mt-5">GET IN TOUCH</h6>
-            <div class="footer-social">
-              <a href="#"><i class="mdi mdi-facebook"></i></a>
-              <a href="#"><i class="mdi mdi-twitter"></i></a>
-              <a href="#"><i class="mdi mdi-instagram"></i></a>
-              <a href="#"><i class="mdi mdi-google"></i></a>
+              <div
+                v-if="selectedUser == user.id"
+                class="col-lg-4 col-md-4"
+                v-for="product in user.products"
+              >
+                <div class="card card-list">
+                  <a href="#">
+                    <span
+                      v-if="product.price_negotiable"
+                      class="badge badge-success"
+                      >Negotiable</span
+                    >
+                    <img
+                      class="card-img-top"
+                      :src="product.image_url"
+                      alt="Card image cap"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title">{{ product.title }}</h5>
+                      <h5 class="card-subtitle mb-2 text-muted">
+                        {{ product.category }}
+                      </h5>
+                      <h2 class="text-success mb-0 mt-3">
+                        ${{ $parent.priceStringCorrect(product.price) }}
+                        <small v-if="product.unit">/{{ product.unit }}</small>
+                      </h2>
+                      <br />
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        {{ product.description }}
+                      </h6>
+                    </div>
+                    <div class="card-footer">
+                      <router-link
+                        v-if="$parent.getUserId() == $route.params.id"
+                        :to="`/products/${product.id}/edit`"
+                        tag="span"
+                        ><i class="mdi mdi-move-resize-variant"></i>
+                        edit product
+                      </router-link>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- End Footer -->
-    <h1>{{ event.users.map((user) => user.id) }}</h1>
-    <button
-      v-if="!event.current_user_attending && $parent.isLoggedIn()"
-      v-on:click="rsvp()"
-    >
-      let's a go
-    </button>
-    <button
-      v-if="event.current_user_attending && $parent.isLoggedIn()"
-      v-on:click="
-        rsvp();
-        categoryData();
-      "
-    >
-      let's a not go
-    </button>
-    <!-- <div id="map" v-if="showMap"></div> -->
+    <!-- End Users -->
   </div>
 </template>
 
 <style>
 #map {
-  position: absolute;
-  height: 300px;
-  width: 100%;
+  height: 28em;
+  width: 42em;
 }
 #event-header {
   padding-bottom: 11px;
@@ -376,11 +307,10 @@ export default {
             var feature = response.body.features[0];
             var map = new mapboxgl.Map({
               container: "map",
-              style: "mapbox://styles/mapbox/streets-v11",
+              style: "mapbox://styles/mapbox/light-v10",
               center: feature.center,
               zoom: 10,
             });
-            new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
           }
         });
     });
@@ -401,7 +331,7 @@ export default {
       } else {
         return "Map";
       }
-    }
+    },
   },
   methods: {
     productButtonReset: function(input) {
@@ -459,6 +389,7 @@ export default {
               zoom: 10,
             });
           }
+          new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
         });
     },
     categoryData: function() {

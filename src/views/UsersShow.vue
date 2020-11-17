@@ -12,7 +12,7 @@
                   >Markets</router-link
                 >
                 /
-                <span class="text-success">Vendor's Profile</span>
+                <span class="text-success">View Profile</span>
                 /
                 <router-link
                   class="text-white"
@@ -42,23 +42,25 @@
             <h1 class="mb-0 mt-4">
               {{ user.company }}
             </h1>
-            <h5 class="text-success mb-3">Registered Vendor</h5>
+            <h5 class="text-success mb-3">Vendor</h5>
             <p>
               {{ user.bio }}
             </p>
             <div class="row mt-3">
               <div class="col-lg-6 col-md-6">
                 <p>
-                  <strong class="text-dark">Phone :</strong> {{user.phone_number}}
+                  <strong class="text-dark">Phone :</strong>
+                  {{ user.phone_number }}
                 </p>
                 <p>
-                  <strong class="text-dark">Address :</strong> {{user.address}}
+                  <strong class="text-dark">Address :</strong>
+                  {{ user.address }}
                 </p>
               </div>
               <div class="col-lg-6 col-md-6">
                 <p>
                   <strong class="text-dark">Website :</strong>
-                  {{user.website}}
+                  {{ user.website }}
                 </p>
               </div>
             </div>
@@ -79,7 +81,22 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 col-md-12 section-title text-left mb-4">
-            <h2>My Products</h2>
+            <div class="row">
+              <div class="col-lg-3 col-md-4">
+                <h2>Current Products</h2>
+              </div>
+              <div class="view-mode float-right">
+                <router-link
+                  v-if="$parent.getUserId() == $route.params.id"
+                  id="plus-button"
+                  to="/products/new"
+                  class="btn btn-outline-secondary"
+                  tag="button"
+                >
+                  add
+                </router-link>
+              </div>
+            </div>
           </div>
           <div class="col-lg-4 col-md-4" v-for="product in user.products">
             <div class="card card-list">
@@ -100,7 +117,7 @@
                     {{ product.category }}
                   </h5>
                   <h2 class="text-success mb-0 mt-3">
-                    ${{ product.price }}
+                    ${{ $parent.priceStringCorrect(product.price) }}
                     <small v-if="product.unit">/{{ product.unit }}</small>
                   </h2>
                   <br />
@@ -123,175 +140,86 @@
         </div>
       </div>
     </section>
-    <!-- End My Properties -->
+    <!-- End My Products -->
     <!-- Schedule -->
     <section class="section-padding bg-white text-center">
-           <h2 class="text mt-0">
+      <h2 class="text mt-0">
         Schedule
       </h2>
       <div class="kalendar-view">
-      <kalendar
-      class="kalendar-widget"
-      v-if="events"
-      :configuration="calendar_settings"
-      :events.sync="events"
-    >
-      <!-- CREATED CARD SLOT -->
-      <div
-        slot="created-card"
-        slot-scope="{ event_information }"
-        class="details-card"
-      >
-        <h5 class="card-title">
-          {{ event_information.data.title }}
-        </h5>
-        <router-link tag="span" :to="`/events/${event_information.data.id}`"
-          >view</router-link
+        <kalendar
+          class="kalendar-widget"
+          v-if="events"
+          :configuration="calendar_settings"
+          :events.sync="events"
         >
+          <!-- CREATED CARD SLOT -->
+          <div
+            slot="created-card"
+            slot-scope="{ event_information }"
+            class="details-card"
+          >
+            <h5 class="card-title">
+              {{ event_information.data.title }}
+            </h5>
+            <router-link tag="span" :to="`/events/${event_information.data.id}`"
+              >view</router-link
+            >
+          </div>
+        </kalendar>
       </div>
-    </kalendar>
-    </div>
-      </section>
+    </section>
     <!-- End Schedule -->
     <!-- Contact Me -->
-      <section class="section-padding  bg-white">
-         <div class="container">
-            <div class="row">
-               <div class="col-lg-12 col-md-12 section-title text-left mb-4">
-                  <h2>Contact Me</h2>
-               </div>
-               <form class="col-lg-12 col-md-12" name="sentMessage">
-                  <div class="row">
-                     <div class="control-group form-group col-lg-4 col-md-4">
-                        <div class="controls">
-                           <label>Your Name <span class="text-danger">*</span></label>
-                           <input type="text" class="form-control" required>
-                        </div>
-                     </div>
-                     <div class="control-group form-group col-lg-4 col-md-4">
-                        <div class="controls">
-                           <label>Email Address <span class="text-danger">*</span></label>
-                           <input type="email" class="form-control" required>
-                        </div>
-                     </div>
-                     <div class="control-group form-group col-lg-4 col-md-4">
-                        <div class="controls">
-                           <label>Phone Number <span class="text-danger">*</span></label>
-                           <input type="email" class="form-control" required>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="control-group form-group">
-                     <div class="controls">
-                        <label>Message <span class="text-danger">*</span></label>
-                        <textarea rows="10" cols="100" class="form-control"></textarea>
-                     </div>
-                  </div>
-                  <button type="submit" class="btn btn-success">Send Message</button>
-               </form>
-            </div>
-         </div>
-      </section>
-    <!-- End Contact Me -->
-    <!-- Footer -->
-    </section>
-    <section class="section-padding bg-dark text-center">
-      <h2 class="text-white mt-0">
-        I'm happy you're here!
-      </h2>
-      <p class="text-white mb-4">
-        If you're interested in this site or others like it, reach out to me!
-      </p>
-      <a
-        type="button"
-        class="btn btn-success"
-        href="https://aaronbriggs00.github.io/"
-      >
-        About me
-      </a>
-      <router-link
-        tag="button"
-        type="button"
-        class="btn btn-outline-success"
-        to="/about"
-        >Read More</router-link
-      >
-    </section>
-    <section class="section-padding footer bg-white">
+    <section class="section-padding  bg-white">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 col-md-3">
-            <h4 class="mb-5">
-              <a class="text-success logo" href="index.html"
-                ><i class="mdi mdi-home-map-marker"></i>
-                <strong>Trading</strong>Post</a
-              >
-            </h4>
-            <p>1060 West Addison St, Chicago, Illinois<br />USA 60613</p>
-            <p class="mb-0">
-              <a class="text-dark" href="#">+1 111 111 1111</a>
-            </p>
-            <p class="mb-0">
-              <a class="text-success" href="#">tradingpost@gmail.com</a>
-            </p>
+          <div class="col-lg-12 col-md-12 section-title text-left mb-4">
+            <h2>Contact Me</h2>
           </div>
-          <div class="col-lg-2 col-md-2">
-            <h6 class="mb-4">COMPANY</h6>
-            <ul>
-              <li><a href="#">About us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Properties</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-2 col-md-2">
-            <h6 class="mb-4">LEARN MORE</h6>
-            <ul>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms & Conditions</a></li>
-              <li><a href="#">Account</a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Blog</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-4 col-md-4">
-            <h6 class="mb-4">NEWSLETTER</h6>
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Email Address..."
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-              />
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  <i class="mdi mdi-arrow-right"></i>
-                </button>
+          <form class="col-lg-12 col-md-12" name="sentMessage">
+            <div class="row">
+              <div class="control-group form-group col-lg-4 col-md-4">
+                <div class="controls">
+                  <label>Your Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" required />
+                </div>
+              </div>
+              <div class="control-group form-group col-lg-4 col-md-4">
+                <div class="controls">
+                  <label
+                    >Email Address <span class="text-danger">*</span></label
+                  >
+                  <input type="email" class="form-control" required />
+                </div>
+              </div>
+              <div class="control-group form-group col-lg-4 col-md-4">
+                <div class="controls">
+                  <label>Phone Number <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" required />
+                </div>
               </div>
             </div>
-            <h6 class="mb-4 mt-5">GET IN TOUCH</h6>
-            <div class="footer-social">
-              <a href="#"><i class="mdi mdi-facebook"></i></a>
-              <a href="#"><i class="mdi mdi-twitter"></i></a>
-              <a href="#"><i class="mdi mdi-instagram"></i></a>
-              <a href="#"><i class="mdi mdi-google"></i></a>
+            <div class="control-group form-group">
+              <div class="controls">
+                <label>Message <span class="text-danger">*</span></label>
+                <textarea rows="10" cols="100" class="form-control"></textarea>
+              </div>
             </div>
-          </div>
+            <button type="submit" class="btn btn-success">Send Message</button>
+          </form>
         </div>
       </div>
     </section>
-    <!-- End Footer -->
+    <!-- End Contact Me -->
   </div>
 </template>
 
 <style>
 .kalendar-widget {
   padding-bottom: 550px;
-  padding-left: 550px;
-  padding-right: 550px;
-  max-height: 550px;
+  padding-left: 125px;
+  padding-right: 125px;
 }
 .kalendar-view {
   max-height: 750px;

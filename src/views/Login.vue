@@ -1,20 +1,48 @@
 <template>
   <div class="login">
-    <form v-on:submit.prevent="submit()">
-      <h1>Login</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" v-model="email" />
+    <section class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 mx-auto">
+            <div class="card padding-card">
+              <div class="card-body">
+                <h5 class="card-title mb-4">Register</h5>
+                <h6 class="text-danger" v-if="errors">{{ errors[0] }}</h6>
+                <form v-on:submit.prevent="submit()">
+                  <div class="form-group">
+                    <label
+                      >Email Address <span class="text-danger"></span
+                    ></label>
+                    <input
+                      v-model="email"
+                      type="email"
+                      class="form-control"
+                      placeholder="Enter Email Address"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Password <span class="text-danger"></span></label>
+                    <input
+                      v-model="password"
+                      type="password"
+                      class="form-control"
+                      placeholder="Enter Password"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-block"
+                    value="Submit"
+                  >
+                    REGISTER
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Password:</label>
-        <input type="password" class="form-control" v-model="password" />
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit" />
-    </form>
+    </section>
   </div>
 </template>
 
@@ -26,7 +54,7 @@ export default {
     return {
       email: "",
       password: "",
-      errors: [],
+      errors: null,
     };
   },
   methods: {
@@ -42,7 +70,7 @@ export default {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("user_id", response.data.user_id);
-          this.$router.push("/");
+          this.$router.push("/events");
         })
         .catch((error) => {
           this.errors = ["Invalid email or password."];

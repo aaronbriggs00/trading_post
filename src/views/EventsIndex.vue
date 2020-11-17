@@ -1,6 +1,5 @@
 <template>
   <div class="events-index">
-    <h1>{{ text }}</h1>
     <section class="osahan-slider">
       <div id="osahanslider" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -43,11 +42,12 @@
       <div class="slider-form">
         <div class="container">
           <h1 class="text-center text-white mb-5">
-            Find a Market near you!
+            Look for a market near you!
           </h1>
           <!-- <form> -->
-          <div class="row no-gutters">
-            <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
               <div class="input-group">
                 <div class="input-group-addon"></div>
                 <input
@@ -58,8 +58,8 @@
                 />
               </div>
             </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
+
+            <div class="col-md-5">
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="mdi mdi-google-maps"></i>
@@ -186,6 +186,14 @@
                       }}</span></a
                     >
                   </li>
+                  <li>
+                    <a v-on:click="events = eventsStored"
+                      ><i class="mdi mdi-chevron-right"></i> Show all
+                      <span class="sidebar-badge">
+                        {{ eventsStored.length }}</span
+                      ></a
+                    >
+                  </li>
                 </ul>
               </div>
             </div>
@@ -211,7 +219,7 @@
                   <div class="carousel-inner">
                     <div class="carousel-item active">
                       <div class="card card-list" v-if="featuredEvent1">
-                        <a href="#">
+                        <router-link :to="`/events/${featuredEvent1.id}`">
                           <img
                             class="card-img-top"
                             :src="featuredEvent1.image_url"
@@ -226,15 +234,15 @@
                               {{ featuredEvent1.address }}
                             </h6>
                             <h2 class="text-success mb-0 mt-3">
-                              <small>{{ featuredEvent1.date }}}</small>
+                              <small>{{ featuredEvent1.date }}</small>
                             </h2>
                           </div>
-                        </a>
+                        </router-link>
                       </div>
                     </div>
                     <div class="carousel-item">
                       <div class="card card-list" v-if="featuredEvent2">
-                        <a href="#">
+                        <router-link :to="`/events/${featuredEvent2.id}`">
                           <img
                             class="card-img-top"
                             :src="featuredEvent2.image_url"
@@ -252,7 +260,7 @@
                               <small>{{ featuredEvent2.date }}}</small>
                             </h2>
                           </div>
-                        </a>
+                        </router-link>
                       </div>
                     </div>
                   </div>
@@ -473,111 +481,6 @@
       </div>
       <!-- Footer -->
     </section>
-    <section class="section-padding bg-dark text-center">
-      <h2 class="text-white mt-0">
-        I'm happy you're here!
-      </h2>
-      <p class="text-white mb-4">
-        If you're interested in this site or others like it, reach out to me!
-      </p>
-      <a
-        type="button"
-        class="btn btn-success"
-        href="https://aaronbriggs00.github.io/"
-      >
-        About me
-      </a>
-      <router-link
-        tag="button"
-        type="button"
-        class="btn btn-outline-success"
-        to="/about"
-        >Read More</router-link
-      >
-    </section>
-    <section class="section-padding footer bg-white">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-md-3">
-            <h4 class="mb-5">
-              <a class="text-success logo" href="index.html"
-                ><i class="mdi mdi-home-map-marker"></i>
-                <strong>Trading</strong>Post</a
-              >
-            </h4>
-            <p>1060 West Addison St, Chicago, Illinois<br />USA 60613</p>
-            <p class="mb-0">
-              <a class="text-dark" href="#">+1 111 111 1111</a>
-            </p>
-            <p class="mb-0">
-              <a class="text-success" href="#">tradingpost@gmail.com</a>
-            </p>
-          </div>
-          <div class="col-lg-2 col-md-2">
-            <h6 class="mb-4">COMPANY</h6>
-            <ul>
-              <li><a href="#">About us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Properties</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-2 col-md-2">
-            <h6 class="mb-4">LEARN MORE</h6>
-            <ul>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms & Conditions</a></li>
-              <li><a href="#">Account</a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Blog</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-4 col-md-4">
-            <h6 class="mb-4">NEWSLETTER</h6>
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Email Address..."
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-              />
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  <i class="mdi mdi-arrow-right"></i>
-                </button>
-              </div>
-            </div>
-            <h6 class="mb-4 mt-5">GET IN TOUCH</h6>
-            <div class="footer-social">
-              <a href="#"><i class="mdi mdi-facebook"></i></a>
-              <a href="#"><i class="mdi mdi-twitter"></i></a>
-              <a href="#"><i class="mdi mdi-instagram"></i></a>
-              <a href="#"><i class="mdi mdi-google"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Footer -->
-    <!-- Date:
-    <datepicker :clear-button="true" v-model="date"></datepicker><br />
-    Search box: <input type="text" v-model="title" />
-    <!-- <div
-      v-for="event in filterBy(
-        filterBy(events, title, 'name'),
-        formattedDate,
-        'date'
-      )"
-    >
-      <h1>{{ event.name }}</h1>
-      <router-link :to="`/events/${event.id}`"
-        ><img :src="event.image_url" width="400" height="300"
-      /></router-link>
-      <p>{{ event.address }}</p>
-      <p>{{ event.date }}</p>
-    </div> -->
   </div>
 </template>
 
@@ -613,6 +516,7 @@ export default {
       sanFranciscoEvents: [],
       philadephiaEvents: [],
       houstonEvents: [],
+      eventsStored: [],
     };
   },
   computed: {
@@ -633,6 +537,22 @@ export default {
       this.chicagoEvents = response.data.filter((event) =>
         event.address.includes("Chicago")
       );
+      this.newYorkEvents = response.data.filter((event) =>
+        event.address.includes("New York")
+      );
+      this.houstonEvents = response.data.filter((event) =>
+        event.address.includes("Houston")
+      );
+      this.bostonEvents = response.data.filter((event) =>
+        event.address.includes("Boston")
+      );
+      this.philadelphiaEvents = response.data.filter((event) =>
+        event.address.includes("Philadelphia")
+      );
+      this.sanFranciscoEvents = response.data.filter((event) =>
+        event.address.includes("San Francisco")
+      );
+      this.eventsStored = this.events;
     });
   },
   methods: {
