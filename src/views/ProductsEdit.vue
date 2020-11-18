@@ -60,6 +60,9 @@
             <form id="edit" v-on:submit.prevent="productEdit()">
               <div class="card padding-card">
                 <div class="card-body">
+                  <div v-for="error in errors">
+                    <p class="text-danger">{{ error }}</p>
+                  </div>
                   <h5 class="card-title mb-4">Profile Information</h5>
                   <div class="form-group">
                     <label
@@ -105,6 +108,7 @@
                         <option value="oz">oz</option>
                         <option value="gallon">gallon</option>
                         <option value="liter">liter</option>
+                        <option value="dozen">dozen</option>
                       </select>
                     </div>
                     <div id="checkbox" class="form-group col-md-3">
@@ -183,8 +187,11 @@
                   <div class="row">
                     <div class="col-md-6">
                       <label
-                        >Product Image <span class="text-danger"></span
-                      ></label>
+                        >Product Image <span class="text-danger"></span></label
+                      ><br />
+                      <span v-if="image" class="text-success"
+                        >file successfully uploaded!</span
+                      >
                       <div class="fuzone">
                         <div class="fu-text">
                           <span
@@ -203,7 +210,7 @@
                 </div>
               </div>
               <button type="submit" class="btn btn-success">
-                Edit Product
+                Save Product
               </button>
             </form>
             <form id="edit" v-on:submit.prevent="deleteProduct()">
@@ -314,6 +321,7 @@ export default {
   data: function() {
     return {
       errors: null,
+      image: null,
       product: {},
     };
   },

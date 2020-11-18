@@ -300,11 +300,13 @@ export default {
       return parseInt(localStorage.getItem("user_id"));
     },
     priceStringCorrect: function(float) {
-      var result = float.toString();
-      if (result.endsWith("0")) {
-        result += "0";
+      if (float) {
+        var result = float.toString();
+        if (result.endsWith("0")) {
+          result += "0";
+        }
+        return result;
       }
-      return result;
     }
   },
 };

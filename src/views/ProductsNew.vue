@@ -62,6 +62,9 @@
             <form id="edit" v-on:submit.prevent="productCreate()">
               <div class="card padding-card">
                 <div class="card-body">
+                  <div v-for="error in errors">
+                    <p class="text-danger">{{ error }}</p>
+                  </div>
                   <h5 class="card-title mb-4">Product Information</h5>
                   <div class="form-group">
                     <label
@@ -106,6 +109,7 @@
                         <option value="oz">oz</option>
                         <option value="gallon">gallon</option>
                         <option value="liter">liter</option>
+                        <option value="dozen">dozen</option>
                       </select>
                     </div>
                     <div id="checkbox" class="form-group col-md-3">
@@ -184,8 +188,11 @@
                   <div class="row">
                     <div class="col-md-6">
                       <label
-                        >Product Image <span class="text-danger"></span
-                      ></label>
+                        >Product Image <span class="text-danger"></span></label
+                      ><br />
+                      <span v-if="image" class="text-success"
+                        >file successfully uploaded!</span
+                      >
                       <div class="fuzone">
                         <div class="fu-text">
                           <span
@@ -226,11 +233,12 @@ export default {
       errors: null,
       productTitle: "",
       productPrice: "",
-      productPriceNegotiable: null,
+      productPriceNegotiable: false,
       productDescription: "",
       productUnit: "",
       productImageUrl: "",
       productCategoryId: "",
+      image: null,
     };
   },
   created: function() {},

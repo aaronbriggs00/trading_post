@@ -6,7 +6,7 @@
           <div class="col-lg-5 col-md-5 mx-auto">
             <div class="card padding-card">
               <div class="card-body">
-                <h5 class="card-title mb-4">Register</h5>
+                <h5 class="card-title mb-4">Login</h5>
                 <h6 class="text-danger" v-if="errors">{{ errors[0] }}</h6>
                 <form v-on:submit.prevent="submit()">
                   <div class="form-group">
@@ -34,7 +34,7 @@
                     class="btn btn-success btn-block"
                     value="Submit"
                   >
-                    REGISTER
+                    LOGIN
                   </button>
                 </form>
               </div>

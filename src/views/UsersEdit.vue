@@ -55,6 +55,9 @@
             <form id="edit" v-on:submit.prevent="submit()">
               <div class="card padding-card">
                 <div class="card-body">
+                  <div v-for="error in errors">
+                    <p class="text-danger">{{ error }}</p>
+                  </div>
                   <h5 class="card-title mb-4">Profile Information</h5>
                   <div class="form-group">
                     <label
@@ -104,10 +107,23 @@
                     </div>
                   </div>
                   <div class="row">
+                    <div class="form-group col-md-8">
+                      <label>address <span class="text-danger">*</span></label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="user.address"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <label
-                        >Profile Image <span class="text-danger"></span
-                      ></label>
+                        >Profile Image <span class="text-danger"></span></label
+                      ><br />
+                      <span v-if="image" class="text-success"
+                        >file successfully uploaded!</span
+                      >
                       <div class="fuzone">
                         <div class="fu-text">
                           <span
@@ -126,7 +142,7 @@
                 </div>
               </div>
               <button type="submit" class="btn btn-success">
-                Edit Profile
+                Save Profile
               </button>
             </form>
             <form id="edit" v-on:submit.prevent="submitPassword()">

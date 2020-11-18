@@ -36,6 +36,7 @@
                 showMap = false;
                 showGraph = false;
                 showInfo = true;
+                removeMap();
               "
               ><i class="mdi mdi-chevron-right"></i> Information
             </a>
@@ -46,6 +47,7 @@
                 showMap = false;
                 showInfo = false;
                 showGraph = true;
+                removeMap();
                 categoryData();
               "
               ><i class="mdi mdi-chevron-right"></i> Market Data
@@ -67,11 +69,11 @@
           <div class="col-lg-5 col-md-5">
             <h1>{{ event.date }}</h1>
             <button
-              class="btn btn-success btn-sm"
+              class="btn btn btn-outline-secondary"
               v-if="!event.current_user_attending && $parent.isLoggedIn()"
               v-on:click="rsvp()"
             >
-              RSVP
+              Not Attending
             </button>
             <button
               class="btn btn-success btn-sm"
@@ -81,7 +83,7 @@
                 categoryData();
               "
             >
-              cancel RSVP
+              Attending
             </button>
           </div>
         </div>
@@ -100,15 +102,14 @@
                   <strong class="text-dark">Address :</strong>
                   {{ event.address }}
                 </p>
-                <p>
-                  <strong class="text-dark">Website :</strong>
-                  www.askbootstrap.com
-                </p>
+                <a :href="event.website"
+                  ><strong class="text-dark">Web Link</strong></a
+                >
               </div>
               <div class="col-lg-6 col-md-6">
                 <p>
                   <strong class="text-dark">Products :</strong>
-                  www.askbootstrap.com
+                  {{ event.products }}
                 </p>
               </div>
             </div>
@@ -126,7 +127,7 @@
               :options="categoryChartOptions"
             ></doughnut-chart>
           </div>
-          <div v-if="showMap" class="col-lg-7 col-md-7 pl-5 pr-5">
+          <div class="col-lg-7 col-md-7 pl-5 pr-5">
             <div v-if="showMap" id="map"></div>
           </div>
         </div>
@@ -137,6 +138,7 @@
     <section class="section-padding">
       <div class="container">
         <div class="row">
+          <h3>Attending</h3>
           <div class="col-lg-12 col-md-12">
             <div class="row" v-for="user in event.users">
               <div class="col-lg-12 col-md-12">
@@ -391,6 +393,12 @@ export default {
           }
           new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
         });
+    },
+    removeMap: function() {
+      var map = document.getElementById("demo");
+      if (map) {
+        map.remove();
+      }
     },
     categoryData: function() {
       var categoriesHash = {};
