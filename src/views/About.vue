@@ -3,6 +3,7 @@
     <section class="section-padding">
       <div class="container">
         <div class="row">
+          <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-10 col-md-10">
             <div class="card blog-card padding-card">
               <div class="card-body">
@@ -38,6 +39,8 @@
               <div class="card-footer"></div>
             </div>
           </div>
+          <div class="col-lg-1 col-md-1"></div>
+          <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-5 col-md-5">
             <img
               class="card-img-top"

@@ -8,7 +8,6 @@
             ><i class="mdi mdi-home-map-marker"></i>
             <strong>Trading</strong> Post</a
           >
-          <span class="navbar-toggler-icon"></span>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
               <li class="nav-item dropdown">

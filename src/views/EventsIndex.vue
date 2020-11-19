@@ -271,7 +271,7 @@
           <div class="col-lg-8 col-md-8">
             <div class="osahan_top_filter row">
               <div class="col-lg-6 col-md-6 tags-action">
-                <p>selecte date:</p>
+                <p>select date:</p>
                 <datepicker :clear-button="true" v-model="date"></datepicker>
                 <!-- <span
                   >For Rent <a href="#"><i class="mdi mdi-window-close"></i></a
@@ -479,7 +479,6 @@
           </div>
         </div>
       </div>
-      <!-- Footer -->
     </section>
   </div>
 </template>
