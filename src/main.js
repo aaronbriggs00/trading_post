@@ -13,7 +13,7 @@ import { Kalendar } from 'kalendar-vue';
 
 moment().format();
 
-axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
+axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "https://salty-tundra-74037.herokuapp.com/" : "/";
 
 var jwt = localStorage.getItem("jwt");
 if (jwt) {
